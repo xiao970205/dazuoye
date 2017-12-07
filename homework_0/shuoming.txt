@@ -1,9 +1,0 @@
-product 产品表
-producttype产品类型表
-订单表
-用户表
-登陆表
-购物车表
-日志表
-
-改成bonecp连接池
