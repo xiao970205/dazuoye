@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+.table0 {
+	width: 60px;
+	height: 44px;
+	border: 0px solid #ababab;
+}
+
+.input1 {
+	text-align: center;
+	border: 1px solid #ababab;
+	width: 43px;
+	height: 42px;
+}
+
+.input2 {
+	width: 25px;
+	height: 23px;
+	position: relative;
+	left: 44px;
+	top: -47px;
+}
+
+.input3 {
+	width: 25px;
+	height: 24px;
+	position: relative;
+	left: 14px;
+	top: -25px;
+}
+</style>
+</head>
+<body>
+	<script type="text/javascript">
+		function jia() {
+			x = document.getElementById("demo").innerHTML;
+			y = parseInt(x) + 1;
+			document.getElementById("demo").innerHTML = y;
+		}
+		function jian() {
+			x = document.getElementById("demo").innerHTML;
+			y = parseInt(x) - 1;
+			if (y > 0) {
+				document.getElementById("demo").innerHTML = y;
+			}
+		}
+		function test2() {
+			x = document.getElementById("test").value;
+			alert(x);
+		}
+		function j2s() {
+			x = document.getElementById("test").value;
+			x = parseInt(x)
+			x = x + 1;
+			document.getElementById("test").value = x;
+		}
+		function jian2s() {
+			x = document.getElementById("test").value;
+			x = x - 1;
+			if (x > 0) {
+				document.getElementById("test").value = x;
+			}
+
+		}
+	</script>
+	<form action="">
+		<p id="demo">1</p>
+		<button type="button" onclick="jia()">+</button>
+		<br>
+		<button type="button" onclick="jian()">-</button>
+		<br>
+
+		<button type="button" onclick="j2s()">+</button>
+		<button type="button" onclick="jian2s()">-</button>
+		<br>
+		<button type="button" onclick="test2()">sdf</button>
+	</form>
+	<br />
+	<form action="">
+		<div class="table0">
+			<input type="text" class="input1" id="test" value="1" />
+			<button type="button" class="input2" onclick="j2s()">+</button>
+			<button type="button" class="input3" onclick="jian2s()">-</button>
+		</div>
+	</form>
+</body>
+</html>
