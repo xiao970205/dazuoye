@@ -15,6 +15,18 @@
 <link type="text/css" rel="stylesheet" media="screen and (min-width:601px) and (max-width:860px)" href="${path }Css/pad.css" />
 <link type="text/css" rel="stylesheet" media="screen and (min-width:481px) and (max-width:600px)" href="${path }Css/tel_heng.css" />
 <link type="text/css" rel="stylesheet" media="screen and (max-width:480px)" href="${path }Css/tel.css" />
+<script type="text/javascript">
+function sub1(){
+	 document.sub0.action="${pageContext.request.contextPath }/book/test1";
+	 document.sub0.method="get";
+   document.sub0.submit();
+}
+function sub2(){
+	 document.sub0.action="${pageContext.request.contextPath }/book/test2";
+	 document.sub0.method="post";
+   document.sub0.submit();
+}
+</script>
 <style type="text/css">
 /* Border styles */
 #table-4 thead, #table-4 tr {
@@ -54,7 +66,7 @@
 <%
 	if(request.getSession().getAttribute("user")==null){
 		response.setContentType("text/html; charset=UTF-8");   
-		response.sendRedirect("request.getContextPath()");  
+		response.sendRedirect("index.jsp");  
 		return;
 	}
 %>
@@ -66,7 +78,7 @@
 
 <div class="w_100_l">
 	<div class="main">
-      <%@ include file="top_index.jsp" %>
+		<%@ include file="top_index.jsp" %>
         <span class="index_img"><img src="${path }Images/banner_img.jpg" alt="Dan Cederholm" border="0" usemap="#Map" />      
         </span>
          <p class="index_hr"></p>
@@ -78,25 +90,18 @@
 						<%
 
 							int a=0;
-							List<book_cart_type> books=(List<book_cart_type>)request.getSession().getAttribute("cart");
-							if(books!=null|books.size()==0){
-								int c=0;
-								for(int i=0;i<books.size();i++){
-									if(books.get(i).getBook_num()==0){
-										books.remove(i);
-									}
-								}
-								
-								
-								
+							if(request.getSession().getAttribute("cart")!=null){	
+								List<book_cart_type> books=(List<book_cart_type>)request.getSession().getAttribute("cart");
 						%>
 						<tr>
+							<th></th>
 							<th></th>
 							<th>书名</th>
 							<th>单价</th>
 							<th>数量</th>
 							<th>操作</th>
 						</tr>
+						<form action="" name="sub0" method="post">
 						<%
 							for(int i=0;i<books.size();i++){
 								a+=(books.get(i).getBook_price()*books.get(i).getBook_num());
@@ -104,9 +109,18 @@
 						
 						<tr>
 							<td>
-								<img src="${path }Images/<%=books.get(i).getBook_img_min() %>" />
+								<input type="checkbox" name="<%=books.get(i).getId() %>"/>
 							</td>
-							<td><%=books.get(i).getBook_name() %></td>
+							<td>
+								<a href="${pageContext.request.contextPath }/book/book_test_0?bookid=<%=books.get(i).getId() %>">
+									<img src="${path }Images/<%=books.get(i).getBook_img_min() %>" />
+								</a>
+							</td>
+							<td>
+								<a href="${pageContext.request.contextPath }/book/book_test_0?bookid=<%=books.get(i).getId() %>">
+									<%=books.get(i).getBook_name() %>
+								</a>
+							</td>
 							<td><%=books.get(i).getBook_price() %></td>
 							<td><%=books.get(i).getBook_num() %></td>
 							<td>
@@ -115,20 +129,24 @@
 								<a href="${pageContext.request.contextPath }/cart/delete_cart?bookid=<%=books.get(i).getId() %>"><img src="${path }Images/chahao.gif" width="50px" height="50px"/></a>
 							</td>
 						</tr>
+						
 						<%
 							}
 						%>
+						</form>
 						<tr>
 							<td></td>
 							<td></td>
 							<td></td>
-							<td></td>
-							<td>总价：<%=a %>元</td>
+							<td><input type="button" onclick="sub1()" value="删除选中商品"/></td>
+							<td>总价：<%=a %>元<br />							
+							</td>
 						</tr>
 						<tr>
 							<td colspan="5" style="text-align: right;">
-								<form  method="post" action="">
-										<input type="hidden" name="bookid" value="${book.book_id }"/>
+								<form  method="post" action="${pageContext.request.contextPath }/order/save2">
+										<input type="hidden" name="bookid" value="${book.book_id }"/><br />
+										地址：<input type="text" name="address" value="河北师范大学"/>
 										<input type="submit" value="" 
 											style="width:213px;height:96px;
 												background:url(${path }Images/tijiao2.gif)">
@@ -137,6 +155,7 @@
 							</td>
 						</tr>
 						<%
+								
 							}else
 							{
 						%>
@@ -149,7 +168,6 @@
 						%>
 						
 					</table>
-				
 			</div>
        <%@ include file="footer_index.jsp" %>
     </div>

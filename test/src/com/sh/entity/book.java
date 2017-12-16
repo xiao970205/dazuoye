@@ -1,14 +1,17 @@
 package com.sh.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="books")
 public class book {
 	
-	@Id
+	
 	private Integer book_id;
 	private String book_name;
 	private String book_value;
@@ -24,6 +27,15 @@ public class book {
 	private String book_introduction_img;
 	private String book_img_min;
 	
+	@Id
+	@GeneratedValue(generator="my_gen")
+    @GenericGenerator(name="my_gen", strategy="increment")
+	public Integer getBook_id() {
+		return book_id;
+	}
+	public void setBook_id(Integer book_id) {
+		this.book_id=book_id;
+	}
 	public String getBook_packing() {
 		return book_packing;
 	}
@@ -36,10 +48,10 @@ public class book {
 	public void setBook_ISBN(String book_ISBN) {
 		this.book_ISBN = book_ISBN;
 	}
-	public String getBook_page_number() {
+	public String getBook_pages_number() {
 		return book_pages_number;
 	}
-	public void setBook_page_number(String book_page_number) {
+	public void setBook_pages_number(String book_page_number) {
 		this.book_pages_number = book_page_number;
 	}
 	public String getBook_folie() {
@@ -59,27 +71,6 @@ public class book {
 	}
 	public void setBook_img_min(String book_img_min) {
 		this.book_img_min = book_img_min;
-	}
-	public book() {}
-	public book(String book_name,
-				String book_value,
-				String book_author,
-				String book_press,
-				String book_prive,
-				String book_introduction) {
-		this.setBook_author(book_author);
-		this.setBook_introduction(book_introduction);
-		this.setBook_name(book_name);
-		this.setBook_press(book_press);
-		this.setBook_price(book_price);
-		this.setBook_value(book_value);
-	}
-	
-	public Integer getBook_id() {
-		return book_id;
-	}
-	public void setBook_id(Integer book_id) {
-		this.book_id=book_id;
 	}
 	public String getBook_name() {
 		return book_name;

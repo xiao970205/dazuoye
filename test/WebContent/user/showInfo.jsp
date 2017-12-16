@@ -50,6 +50,13 @@
 </head>
 
 <body>
+<%
+	if(request.getSession().getAttribute("user")==null){
+		response.setContentType("text/html; charset=UTF-8");   
+		response.sendRedirect("index.jsp");  
+		return;
+	}
+%>
 <div class="w_100_l top_title">
 	<div class="main">
     	<p><a href="#">Buy more than one book and save big! </a><a href="#">Read more</a></p>
@@ -65,26 +72,16 @@
       <div class="content">
       <table id="table-4">
       	<thead>
-      		<th>${user.userName }的注册信息表</th>
+      		<td>${user.realName }的注册信息表</td>
       	</thead>
 		<tr>
-			<td>用户名：</td><td>${user.userName }</td>
+			<td>用户名：</td><td>${user.loginName }</td>
 		</tr>
 		<tr>
-			<td>密码：</td><td>${user.userPassword }</td>
+			<td>电子邮件：</td><td>${user.email }</td>
 		</tr>
 		<tr>
-			<td>电子邮件：</td><td>${user.userEmail }</td>
-		</tr>
-		<tr>
-			<td>电话：</td><td>${user.userTelephone }</td>
-		</tr>
-
-		<tr>
-			<td>地址：</td><td>${user.userAddress }</td>
-		</tr>
-		<tr>
-			<td>注册时间：</td><td>${user.postTime }</td>
+			<td>地址：</td><td>${user.address }</td>
 		</tr>
 		<tr>
 			<td><a href="${path }alertInfo.jsp">修改个人信息</a> </td>

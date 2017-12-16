@@ -8,6 +8,42 @@
 <meta name="viewport"
 	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <title>响应式布局</title>
+<script>
+function checkForm0() {
+	var reg = new RegExp("^[0-9]*$");
+	var max= document.getElementById("max").value;
+    var min= document.getElementById("min").value;
+   	if(max==null||max==""){
+   		alert("max为空！");
+   		return false;
+   	}else if(min==null||min==""){
+   		alert("min为空！");
+   		return false;
+   	}else if(!reg.test(max)){
+        alert("max请输入数字!");
+        return false;
+    }else if(!/^[0-9]*$/.test(max)){
+        alert("max请输入数字!");
+        return false;
+    }else if(!reg.test(min)){
+        alert("min请输入数字!");
+        return false;
+    }else if(!/^[0-9]*$/.test(min)){
+        alert("min请输入数字!");
+        return false;
+    }else if(max==min){
+    	alert("max=min!");
+    	return false;
+    }else if(max<min){
+   		alert("min大于max！");
+   		return false;
+   	}else{
+   		alert("ok");
+   	}
+   	alert("ok2");
+   	return true;
+}
+</script>
 <link type="text/css" rel="stylesheet" href="${path }Css/reset.css" />
 <link type="text/css" rel="stylesheet" href="${path }Css/1024_768.css" />
 <link type="text/css" rel="stylesheet"
@@ -25,6 +61,7 @@
 <link rel="stylesheet" href="css/font-awesone.min.css" />
 <link rel="stylesheet" type="text/css" href="css/demo.css" />
 <link rel="stylesheet" href="css/style.css" />
+
 </head>
 
 <body>
@@ -45,14 +82,20 @@
 				usemap="#Map" /> </span>
 			<p class="index_hr"></p>
 			<div class="content">
-				<a href="/homework_0/book/show_paging">show_all</a>
+				<a href="/homework_0/book/show_paging">显示所有书籍</a>
+				<a href="/homework_0/book/show_paging_hot">显示热门书籍</a>
+				<a href="/homework_0/book/show_paging_new">显示最新书籍</a><br /><br />
 				<form action="/homework_0/book/show_paging_0">
 					<input type="text" placeholder="搜索从这里开始..." name="name" /> <input
 						type="submit" value="搜索" />
 				</form>
+				<br />
+				<form action="${pageContext.request.contextPath }/book/findBookByPrice" method="post" onsubmit="return checkForm0()">
+					价格区间：min:<input type="text"  name="min" id="min" /> max:<input type="text"  name="max" id="max"/> 
+					<input type="submit" value="搜索" />
+				</form>
 				<h1 class="h1_book_title">
-					<a href="${pageContext.request.contextPath }/BookServlet">Also
-						from A Book Apart</a>
+					<a>Also from A Book Apart</a>
 				</h1>
 				<ul>
 					<c:forEach items="${list}" var="book">

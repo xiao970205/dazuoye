@@ -23,6 +23,21 @@ public class bookDaoImpl {
 	
 	private int AllRowCount0;
 	
+	public List<book> findBookByPrice(int offset,int length,String max,String min) {
+		System.out.println("进入dao层");
+		String hql="from book a where a.book_price >"+min+" and a.book_price <"+max;
+		Query query=(Query)sessionFactory.getCurrentSession().createQuery(hql);
+		int count=query.list().size();
+		System.out.println(count);
+		query.setFirstResult(offset);
+		query.setMaxResults(length);
+		for(int i=0;i<query.list().size();i++) {
+			System.out.println(query.list().get(i));
+		}
+		this.setAllRowCount0(count);
+		return query.list();
+	}
+	
 	public void show_select_n(ArrayList<String> arr) {
 		Set<book> books=new HashSet<book>();
 		for(int i=0;i<arr.size();i++) {
@@ -69,6 +84,28 @@ public class bookDaoImpl {
 	
 	public List<book> queryForPage(int offset,int length){
 		Query query=(Query)sessionFactory.getCurrentSession().createQuery("from book");
+		int count=query.list().size();
+		query.setFirstResult(offset);
+		query.setMaxResults(length);
+		this.setAllRowCount0(query.list().size());
+		
+		this.setAllRowCount0(count);
+		return query.list();
+	}
+	
+	public List<book> showPagingHot(int offset,int length){
+		Query query=(Query)sessionFactory.getCurrentSession().createQuery("from book e where e.book_id>0 and e.book_id<11");
+		int count=query.list().size();
+		query.setFirstResult(offset);
+		query.setMaxResults(length);
+		this.setAllRowCount0(query.list().size());
+		
+		this.setAllRowCount0(count);
+		return query.list();
+	}
+	
+	public List<book> showPagingNew(int offset,int length){
+		Query query=(Query)sessionFactory.getCurrentSession().createQuery("from book order by book_id asc");
 		int count=query.list().size();
 		query.setFirstResult(offset);
 		query.setMaxResults(length);

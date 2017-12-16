@@ -27,11 +27,15 @@ public class CartController {
 	public void add_cart(HttpServletRequest request,HttpServletResponse response) {
 		
 		String book0=request.getParameter("bookid");
-		
+		String book_num0=request.getParameter("num");
+		if(book_num0==null) {
+			book_num0="1";
+		}
+		int book_num=Integer.parseInt(book_num0);
 		book book1=service.queryForPageName(book0);
 		
 		book_cart_type book=new book_cart_type();
-		book.setBook_num(1);
+		book.setBook_num(book_num);
 		book.setBook_name(book1.getBook_name());
 		book.setBook_price(book1.getBook_price());
 		book.setId(book1.getBook_id());
@@ -42,9 +46,6 @@ public class CartController {
 			List<book_cart_type> books=new ArrayList<book_cart_type>();
 			books.add(book);
 			session.setAttribute("cart", books);
-			for(int i=0;i<books.size();i++) {
-				System.out.println(books.get(i).getBook_name());
-			}
 		}else {
 			int a=0;
 			List<book_cart_type> books=(List<book_cart_type>)session.getAttribute("cart");
@@ -52,7 +53,7 @@ public class CartController {
 				if(books.get(i).getId().equals(book.getId())) {
 					a++;
 					int b=books.get(i).getBook_num();
-					b++;
+					b+=book.getBook_num();
 					books.get(i).setBook_num(b);
 				}
 			}
@@ -71,7 +72,8 @@ public class CartController {
 	}
 	
 	public void tiaozhuan(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		response.sendRedirect(request.getContextPath()+"/user/shoppingCart.jsp");
+		String address=request.getContextPath()+"/user/shoppingCart.jsp";
+		response.sendRedirect(address);
 	}
 	
 	@RequestMapping("delete_cart")
@@ -102,10 +104,18 @@ public class CartController {
 		for(int i=0;i<book_cart.size();i++) {
 			if(bookid==book_cart.get(i).getId()) {
 				int num=book_cart.get(i).getBook_num()-1;
+				if(num>0) {
 				book_cart.get(i).setBook_num(num);
+				}else {
+					book_cart.remove(i);
+				}
 			}
 		}
+		if(book_cart.size()>0) {
 		session.setAttribute("cart", book_cart);
+		}else {
+			session.removeAttribute("cart");
+		}
 		try {
 			this.tiaozhuan(request, response);
 		} catch (IOException e) {

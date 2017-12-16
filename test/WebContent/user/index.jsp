@@ -28,7 +28,7 @@
         </span>
         <p class="index_hr"></p>
       <div class="content">
-            <h1 class="h1_book_title"><a href="${pageContext.request.contextPath }/BookServlet">Also from A Book Apart</a></h1>            	       	
+            <h1 class="h1_book_title"><a href="${pageContext.request.contextPath }/order/showAllOrder">Also from A Book Apart</a></h1>            	       	
       </div>
        <%@ include file="footer_index.jsp" %>
     </div>

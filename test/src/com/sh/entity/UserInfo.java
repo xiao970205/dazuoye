@@ -12,24 +12,29 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name="userinfo")
 public class UserInfo {
-
+	private Integer id;
 	private String loginName;
 	private String realName;
 	private String email;
-	private int telephone;
 	private String address;
+	private UserLogin userLogin;
 	
+
+	@Id
+    @GeneratedValue(generator="my_gen")
+    @GenericGenerator(name="my_gen", strategy = "foreign", 
+        parameters=@Parameter(name = "property", value = "userLogin"))
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public int getTelephone() {
-		return telephone;
-	}
-	public void setTelephone(int telephone) {
-		this.telephone = telephone;
 	}
 	public String getAddress() {
 		return address;
@@ -37,12 +42,6 @@ public class UserInfo {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	private UserLogin userLogin;
-	
-	@Id
-	@GenericGenerator(name="foreign",strategy="foreign",
-	parameters= {@Parameter(name="property",value="userLogin")})
-	@GeneratedValue(generator="foreign")
 	public String getLoginName() {
 		return loginName;
 	}

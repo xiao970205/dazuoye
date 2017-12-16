@@ -13,14 +13,21 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name="userlogin")
 public class UserLogin {
-
+	private Integer id;
 	private String loginName;
 	private String password;
-	private UserInfo userInfo;
+	private UserInfo UserInfo;
 	
 	@Id
-	@GenericGenerator(name="loginid",strategy="assigned")
-	@GeneratedValue(generator="loginid")
+	@GeneratedValue(generator="my_gen")
+    @GenericGenerator(name="my_gen", strategy="increment")
+
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getLoginName() {
 		return loginName;
 	}
@@ -34,11 +41,11 @@ public class UserLogin {
 		this.password = password;
 	}
 	@OneToOne(cascade=CascadeType.ALL)
-	@PrimaryKeyJoinColumn(name="loginid")
+	@PrimaryKeyJoinColumn(name="id")
 	public UserInfo getUserInfo() {
-		return userInfo;
+		return UserInfo;
 	}
 	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
+		this.UserInfo = userInfo;
 	}
 }

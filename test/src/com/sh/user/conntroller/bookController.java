@@ -25,139 +25,217 @@ public class bookController {
 
 	@Resource
 	private bookServiceImpl service;
-
+	
+	@RequestMapping("test1")
+	public void test1(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("test1");
+		List <book_cart_type> books0=(List <book_cart_type>)request.getSession().getAttribute("cart");
+		List <book_cart_type> books=new ArrayList <book_cart_type>();
+		for(int i=0;i<books0.size();i++) {
+			String id=books0.get(i).getId().toString();
+			if(request.getParameter(id)==null) {
+				books.add(books0.get(i));
+			}
+		}
+		if(books.size()==0) {
+			request.getSession().removeAttribute("cart");
+		}else {
+			request.getSession().setAttribute("cart", books);
+		}
+		String address=request.getContextPath()+"/user/shoppingCart.jsp";
+		try {
+			response.sendRedirect(address);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("test2")
+	public void test2(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("test2");
+	}
+	
+	@RequestMapping("findBookByPrice")
+	public String findBookByPrice(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+		String max=request.getParameter("max");
+		String min=request.getParameter("min");
+		System.out.println("进入controller层");
+		System.out.println(max);
+		System.out.println(min);
+		String pageNo = request.getParameter("pageNo");
+		if (pageNo == null) {
+			pageNo = "1";
+		}
+		bookPage page=service.serviceFindBookByPrice(Integer.valueOf(pageNo), 4, max, min);
+		System.out.println("进入controller层");
+		request.setAttribute("MethodName", "show_paging");
+		request.setAttribute("page", page);
+		List<book> list = page.getList();
+		modelMap.put("list", list);
+		return "user/allBook";
+	}
 	@RequestMapping("show_select0")
 	public String show2(@RequestParam("select") String select) {
-		//以上循环
-		String[] condition0=select.split(" ");
-		ArrayList<String> condition=new ArrayList<String>();
-		for(int i=0;i<condition0.length;i++) {
-			if(condition0[i].equals(" ")) {}
-			else {
+		// 以上循环
+		String[] condition0 = select.split(" ");
+		ArrayList<String> condition = new ArrayList<String>();
+		for (int i = 0; i < condition0.length; i++) {
+			if (condition0[i].equals(" ")) {
+			} else {
 				condition.add(condition0[i]);
 			}
 		}
 		this.service.show_select_n(condition);
 		return "index";
 	}
-	
+
 	@RequestMapping("show_paging")
-	public String find_all_paging(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) {
+	public String find_all_paging(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
 		String pageNo = request.getParameter("pageNo");
-        if (pageNo == null) {
-            pageNo = "1";
-        }
-        bookPage page = service.queryForPage(Integer.valueOf(pageNo), 5);
-        request.setAttribute("MethodName", "show_paging");
-        request.setAttribute("page", page);
-        List<book> list = page.getList();
-        modelMap.put("list", list);
-    return "user/allBook";
+		if (pageNo == null) {
+			pageNo = "1";
+		}
+		bookPage page = service.queryForPage(Integer.valueOf(pageNo), 5);
+		request.setAttribute("MethodName", "show_paging");
+		request.setAttribute("page", page);
+		List<book> list = page.getList();
+		modelMap.put("list", list);
+		return "user/allBook";
+	}
+
+	@RequestMapping("show_paging_hot")
+	public String show_paging_hot(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+		String pageNo = request.getParameter("pageNo");
+		if (pageNo == null) {
+			pageNo = "1";
+		}
+		bookPage page = service.showPagingHot(Integer.valueOf(pageNo), 3);
+		request.setAttribute("MethodName", "show_paging");
+		request.setAttribute("page", page);
+		List<book> list = page.getList();
+		modelMap.put("list", list);
+		return "user/allBook";
 	}
 	
+	@RequestMapping("show_paging_new")
+	public String show_paging_new(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+		String pageNo = request.getParameter("pageNo");
+		if (pageNo == null) {
+			pageNo = "1";
+		}
+		bookPage page = service.showPagingNew(Integer.valueOf(pageNo), 3);
+		request.setAttribute("MethodName", "show_paging");
+		request.setAttribute("page", page);
+		List<book> list = page.getList();
+		modelMap.put("list", list);
+		return "user/allBook";
+	}
+
 	@RequestMapping("show_name_paging")
-	public String find_name_paging(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) {
-		String pageNo=request.getParameter("pageNo");
-		String name=request.getParameter("name");
-		if(pageNo==null) {
-			pageNo="1";
+	public String find_name_paging(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+		String pageNo = request.getParameter("pageNo");
+		String name = request.getParameter("name");
+		if (pageNo == null) {
+			pageNo = "1";
 		}
-		if(name==null) {
-			name=request.getAttribute("MethodValue").toString();
+		if (name == null) {
+			name = request.getAttribute("MethodValue").toString();
 		}
-		bookPage page=service.queryForPage(Integer.valueOf(pageNo), 2, name);
+		bookPage page = service.queryForPage(Integer.valueOf(pageNo), 2, name);
 		request.setAttribute("MethodValue", name);
 		request.setAttribute("page", page);
 		request.setAttribute("MethodName", "show_name_paging");
-		List<book> list=page.getList();
+		List<book> list = page.getList();
 		modelMap.put("list", list);
 		return "index";
 	}
-	
+
 	@RequestMapping("show_price_paging")
-	public String find_price_paging(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) {
+	public String find_price_paging(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
 		String pageNo = request.getParameter("pageNo");
-		String max=request.getParameter("max");
-		String min=request.getParameter("min");
-		if(max==null&&min==null) {
-			String[] name=request.getParameter("name").split(" ");
-			max=name[1];
-			min=name[0];
+		String max = request.getParameter("max");
+		String min = request.getParameter("min");
+		if (max == null && min == null) {
+			String[] name = request.getParameter("name").split(" ");
+			max = name[1];
+			min = name[0];
 		}
-        if (pageNo == null) {
-            pageNo = "1";
-        }
-        bookPage page = service.queryForPage(Integer.valueOf(pageNo), 2, max, min);
-        request.setAttribute("MethodName", "show_price_paging");
-        request.setAttribute("MethodValue", min+" "+max);
-        request.setAttribute("page", page);
-        List<book> list = page.getList();
-        modelMap.put("list", list);
-    return "index";
+		if (pageNo == null) {
+			pageNo = "1";
+		}
+		bookPage page = service.queryForPage(Integer.valueOf(pageNo), 2, max, min);
+		request.setAttribute("MethodName", "show_price_paging");
+		request.setAttribute("MethodValue", min + " " + max);
+		request.setAttribute("page", page);
+		List<book> list = page.getList();
+		modelMap.put("list", list);
+		return "index";
 	}
-	
+
 	@RequestMapping("show_paging_0")
-	public String show_paging_0(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) {
-		String pageNo=request.getParameter("pageNo");
-		String name=request.getParameter("name");
-		if(pageNo==null) {
-			pageNo="1";
+	public String show_paging_0(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+		String pageNo = request.getParameter("pageNo");
+		String name = request.getParameter("name");
+		if (pageNo == null) {
+			pageNo = "1";
 		}
-		if(name==null) {
-			name=request.getAttribute("MethodValue").toString();
+		if (name == null) {
+			name = request.getAttribute("MethodValue").toString();
 		}
-		bookPage page=service.queryForPage0(Integer.valueOf(pageNo), 2, name);
+		bookPage page = service.queryForPage0(Integer.valueOf(pageNo), 2, name);
 		request.setAttribute("MethodValue", name);
 		request.setAttribute("page", page);
 		request.setAttribute("MethodName", "show_paging_0");
-		List<book> list=page.getList();
+		List<book> list = page.getList();
 		modelMap.put("list", list);
 		return "user/allBook";
-		
+
 	}
-	
+
 	@RequestMapping("show_paging_value")
-	public String show_paging_value(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) {
-		String pageNo=request.getParameter("PageNo");
-		String name=request.getParameter("name");
-		if(pageNo==null) {
-			pageNo="1";
+	public String show_paging_value(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+		String pageNo = request.getParameter("PageNo");
+		String name = request.getParameter("name");
+		if (pageNo == null) {
+			pageNo = "1";
 		}
-		if(name==null) {
-			name=request.getAttribute("MethodValue").toString();
+		if (name == null) {
+			name = request.getAttribute("MethodValue").toString();
 		}
-		bookPage page=service.queryForPageValue(Integer.valueOf(pageNo), 2, name);
+		bookPage page = service.queryForPageValue(Integer.valueOf(pageNo), 2, name);
 		request.setAttribute("MethodValue", name);
 		request.setAttribute("page", page);
 		request.setAttribute("MethodName", "show_paging_value");
-		List<book> list=page.getList();
+		List<book> list = page.getList();
 		modelMap.put("list", list);
 		return "user/allBook";
 	}
-	
+
 	@RequestMapping("show_paging_author")
-	public String show_paging_author(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) {
-		String pageNo=request.getParameter("pageNo");
-		String name=request.getParameter("name");
-		if(pageNo==null) {
-			pageNo="1";
+	public String show_paging_author(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+		String pageNo = request.getParameter("pageNo");
+		String name = request.getParameter("name");
+		if (pageNo == null) {
+			pageNo = "1";
 		}
-		if(name==null) {
-			name=request.getAttribute("MethodValue").toString();
+		if (name == null) {
+			name = request.getAttribute("MethodValue").toString();
 		}
-		bookPage page=service.queryForPageAuthor(Integer.valueOf(pageNo), 2, name);
+		bookPage page = service.queryForPageAuthor(Integer.valueOf(pageNo), 2, name);
 		request.setAttribute("MethodValue", name);
 		request.setAttribute("page", page);
 		request.setAttribute("MethodName", "show_paging_author");
-		List<book> list=page.getList();
+		List<book> list = page.getList();
 		modelMap.put("list", list);
 		return "user/allBook";
 	}
-	
+
 	@RequestMapping("book_test_0")
-	public void book_test_0(HttpServletRequest request,HttpServletResponse response) {
-		String book0=request.getParameter("bookid");
-		book book=this.service.queryForPageName(book0);
+	public void book_test_0(HttpServletRequest request, HttpServletResponse response) {
+		String book0 = request.getParameter("bookid");
+		System.out.println(book0);
+		book book = this.service.queryForPageName(book0);
 		try {
 			this.tiaozhuan(request, response, book);
 		} catch (IOException e) {
@@ -165,51 +243,51 @@ public class bookController {
 			e.printStackTrace();
 		}
 	}
-	
-	public void tiaozhuan(HttpServletRequest request,HttpServletResponse response,book book) throws IOException {
+
+	public void tiaozhuan(HttpServletRequest request, HttpServletResponse response, book book) throws IOException {
 		request.getSession().setAttribute("book", book);
-		response.sendRedirect(request.getContextPath()+"/user/book_test_0.jsp");
+		response.sendRedirect(request.getContextPath() + "/user/book_test_0.jsp");
 	}
-	
+
 	@RequestMapping("add_cart")
-	public String add_cart(HttpServletRequest request,HttpServletResponse response) {
-		
-		String book0=request.getParameter("bookid");
-		
-		book book1=this.service.queryForPageName(book0);
-		
-		book_cart_type book=new book_cart_type();
+	public String add_cart(HttpServletRequest request, HttpServletResponse response) {
+
+		String book0 = request.getParameter("bookid");
+
+		book book1 = this.service.queryForPageName(book0);
+
+		book_cart_type book = new book_cart_type();
 		book.setBook_num(1);
 		book.setBook_name(book1.getBook_name());
 		book.setBook_price(book1.getBook_price());
 		book.setId(book1.getBook_id());
-		
-		HttpSession session=request.getSession();
-		if(session.getAttribute("cart")==null) {
-			List<book_cart_type> books=new ArrayList<book_cart_type>();
+
+		HttpSession session = request.getSession();
+		if (session.getAttribute("cart") == null) {
+			List<book_cart_type> books = new ArrayList<book_cart_type>();
 			books.add(book);
 			session.setAttribute("cart", books);
-			for(int i=0;i<books.size();i++) {
+			for (int i = 0; i < books.size(); i++) {
 				System.out.println(books.get(i).getBook_name());
 			}
-		}else {
-			int a=0;
-			List<book_cart_type> books=(List<book_cart_type>)session.getAttribute("cart");
-			for(int i=0;i<books.size();i++) {
-				if(books.get(i).getId().equals(book.getId())) {
+		} else {
+			int a = 0;
+			List<book_cart_type> books = (List<book_cart_type>) session.getAttribute("cart");
+			for (int i = 0; i < books.size(); i++) {
+				if (books.get(i).getId().equals(book.getId())) {
 					a++;
-					int b=books.get(i).getBook_num();
+					int b = books.get(i).getBook_num();
 					b++;
 					books.get(i).setBook_num(b);
 				}
 			}
 
-			if(a==0) {
+			if (a == 0) {
 				books.add(book);
 			}
 			session.setAttribute("cart", books);
 		}
 		return "user/shoppingCart";
 	}
-		
+
 }

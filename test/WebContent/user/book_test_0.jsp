@@ -40,25 +40,25 @@
 <link type="text/css" rel="stylesheet" href="${path }Css/reset.css" />
 <link type="text/css" rel="stylesheet" href="${path }Css/1024_768.css" />
 <script type="text/javascript"
-	src="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/conversion_async.js.下载"></script>
+	src="${path }book_0_test/conversion_async.js.下载"></script>
 <script
-	src="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/gtm.js.下载"></script>
+	src="${path }book_0_test/gtm.js.下载"></script>
 <script
-	src="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/push.js.下载"></script>
+	src="${path }book_0_test/push.js.下载"></script>
 <link type="text/css" rel="stylesheet"
-	href="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/saved_resource" />
+	href="${path }book_0_test/saved_resource" />
 <link rel="stylesheet" type="text/css"
-	href="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/saved_resource(1)" />
+	href="${path }book_0_test/saved_resource(1)" />
 <script
-	src="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/saved_resource(2)"></script>
+	src="${path }book_0_test/saved_resource(2)"></script>
 <script
-	src="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/log_client.js.下载"></script>
+	src="${path }book_0_test/log_client.js.下载"></script>
 <script
-	src="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/saved_resource(3)"></script>
+	src="${path }/saved_resource(3)"></script>
 <link charset="utf-8" rel="stylesheet"
-	href="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/saved_resource(4)" />
+	href="${path }book_0_test/saved_resource(4)" />
 <link charset="utf-8" rel="stylesheet"
-	href="${path }《龙族IV奥丁之渊（京东版随机附赠明信片）》(江南)【摘要 书评 试读】- 京东图书_files/saved_resource(5)" />
+	href="${path }book_0_test/saved_resource(5)" />
 </head>
 <%
 	book book = (book) request.getSession().getAttribute("book");
@@ -252,17 +252,17 @@
 
 										}
 									</script>
-									<form>
+									<form action="${pageContext.request.contextPath }/cart/add_cart"  method="post">
 										<div class="table0" style="float:left">
-											<input type="text" class="input1" id="test" value="1" />
+											<input type="text" class="input1" name="num" id="test" value="1" />
 											<button type="button" class="input2" onclick="j2s()">+</button>
 											<button type="button" class="input3" onclick="jian2s()">-</button>
 										</div>
 										<div style="width: 40px; height: 10px; float: left"></div>
 										<!-- 加入购物车 -->
-										<div class="btn" id="choose-btn-append" style="float: left">
-											<a class="btn-append "
-												href="${pageContext.request.contextPath }/cart/add_cart?bookid=${book.book_id }">加入购物车<b></b></a>
+										<input type="hidden" value="${book.book_id }" name="bookid"/>
+										<div style="width:200px;height:50px;float: left">
+											<input type="submit" value="" style="width:137px;height:38px;background:url(${path }Images/addcart.jpg);"></input>
 										</div>
 									</form>
 								</div>
@@ -289,7 +289,7 @@
 										<li title="16开">开本：16开</li>
 										<li title="2015-10-01">出版时间：2015-10-01</li>
 										<li title="轻型纸">用纸：轻型纸</li>
-										<li title="374">页数：${book.book_page_number }</li>
+										<li title="374">页数：${book.book_pages_number }</li>
 										<li title="300000">字数：300000</li>
 									</ul>
 								</div>

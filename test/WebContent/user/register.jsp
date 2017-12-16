@@ -31,6 +31,7 @@ function checkForm(){
     var address = document.getElementById("address");
     var email = document.getElementById("email");
     var telephone = document.getElementById("telephone");
+    var realName=document.getElementById("realName");
     
      if(username == null || username.value == ""){
         alert("用户名不能为空");
@@ -62,7 +63,10 @@ function checkForm(){
      }else if(telephone.value.match(telephone_) == null){
         alert("您输入的电话号码无效");
         return false;
-    }
+     }else if(realName == null || realName.value == ""){
+         alert("您没有输入昵称");
+         return false;
+      }
      return true;
 }
 </script>
@@ -125,10 +129,10 @@ input.contact_input {
        
       <div class="content">
             <h1 class="h1_book_title">Also from A Book Apart</h1>
-	          <form   action="${pageContext.request.contextPath }/RegisterServlet" method="post" onsubmit="return checkForm();">
+	          <form action="${pageContext.request.contextPath }/loginuser/regist" method="post" onsubmit="return checkForm();">
 	            <div class="form_row">
 	              <label class="contact"><strong>用户名:</strong></label>
-	              <input type="text" class="contact_input" name="username" id="userName" />
+	              <input type="text" class="contact_input" name="loginName" id="userName" />
 	              <div class="terms">必填项,3-10位,字母、数字或下划线</div> 
 	            </div>
 	            <div class="form_row">
@@ -140,6 +144,11 @@ input.contact_input {
 	              <label class="contact"><strong>确认密码:</strong></label>
 	              <input type="password" class="contact_input" name="password2" id="rePassword" />
 	              <div class="terms">必填项,请确定上述密码与本次输入密码一致</div>
+	            </div>
+	            <div class="form_row">
+	              <label class="contact"><strong>昵称:</strong></label>
+	              <input type="text" class="contact_input" name="realName" id="realName" />
+	              <div class="terms">必填项</div>
 	            </div>
 	            <div class="form_row">
 	              <label class="contact"><strong>邮箱:</strong></label>

@@ -38,6 +38,36 @@ public class bookServiceImpl {
 		return page;
 	}
 	
+	public bookPage showPagingHot(int currentPage,int pageSize) {
+		bookPage page=new bookPage();
+		
+        //当前页开始记录
+        int offset = page.countOffset(currentPage,pageSize);  
+        //分页查询结果集
+        List<book> list = dao.showPagingHot(offset, pageSize);
+        page.setPageNo(currentPage);
+        page.setPageSize(pageSize);
+        int allRow = dao.getAllRowCount0();
+        page.setTotalRecords(allRow);
+        page.setList(list);
+		return page;
+	}
+	
+	public bookPage showPagingNew(int currentPage,int pageSize) {
+		bookPage page=new bookPage();
+		
+        //当前页开始记录
+        int offset = page.countOffset(currentPage,pageSize);  
+        //分页查询结果集
+        List<book> list = dao.showPagingNew(offset, pageSize);
+        page.setPageNo(currentPage);
+        page.setPageSize(pageSize);
+        int allRow = dao.getAllRowCount0();
+        page.setTotalRecords(allRow);
+        page.setList(list);
+		return page;
+	}
+	
 	public bookPage queryForPage(int currentPage,int pageSize,String name) {
 		bookPage page=new bookPage();
 		int allRow=dao.get_paging_count(name);
@@ -62,6 +92,20 @@ public class bookServiceImpl {
 		return page;
 	}
 	
+	public bookPage serviceFindBookByPrice(int currentPage,int pageSize,String max,String min) {
+		System.out.println("进入service层");
+		bookPage page=new bookPage();
+		int offset=page.countOffset(currentPage, pageSize);
+		List<book> list=dao.findBookByPrice(offset, pageSize, max, min);
+		int allRow=dao.getAllRowCount0();
+		page.setPageNo(currentPage);;
+		page.setPageSize(pageSize);
+		page.setTotalRecords(allRow);
+		page.setList(list);
+		return page;
+	}
+	
+	
 	public bookPage queryForPage0(int currentPage,int pageSize,String name) {
 		bookPage page=new bookPage();
 		int offset=page.countOffset(currentPage, pageSize);
@@ -80,7 +124,7 @@ public class bookServiceImpl {
 		List<book> list=dao.queryForPageValue(offset, pageSize, value);
 		int allRow=dao.getAllRowCount0();
 		page.setPageNo(currentPage);;
-		page.setPageSize(pageSize);;
+		page.setPageSize(pageSize);
 		page.setTotalRecords(allRow);
 		page.setList(list);
 		return page;
