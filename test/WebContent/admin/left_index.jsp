@@ -35,7 +35,7 @@
 		<ul>
 			<li><a href="${pageContext.request.contextPath }/Admin/Book/AdminFindAllBook">商品列表</a></li>
 			<li><a href="${path }addBook.jsp">添加商品</a></li>
-			<li><a href="#">商品分类</a></li>
+			<li><a href="${path }selectBook.jsp">商品搜索</a></li>
 		</ul>
 		<h3 class="am-icon-volume-up">
 			<em></em> <a href="#">管理员维护</a>

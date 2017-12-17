@@ -1,9 +1,52 @@
-product 产品表
-producttype产品类型表
-订单表
-用户表
-登陆表
-购物车表
-日志表
+展示：1．实体Javabean以及对应数据库表的建立：
+        实体类JavaBean之间的映射关系要包括一对一、一对多以及多对多。
+		<配置文件或注解> 
+	com.sh.entity包里的文件
+	
+	2．Spring框架和Hibernate框架的配置文件相关配置：
+		web.xml文件：配置SpringMVC的前端控制器，配置Spring的Listener。
+		applicationContext.xml文件：配置datasource、sessionfactory和事务。
+	见src/spring-bean,dbinfo.properties
+	WebContent/WEB-INF/spring-mvc.xml,web.xml
 
-改成bonecp连接池
+	3．实现用户注册及登录，不同的用户角色对应不同的页面。普通用户进入前台页面， 
+		管理员进入后台页面，可以查看用户列表。
+		实现用户登录的Controller，调用Service、Dao文件里的方法
+		打开后点击右上角登陆，qqq,qqq为用户，123，123为管理员
+		方法见src.com.sh.***.controller/service/dao
+	
+	4．实现用户订单管理模块，要求写出订单Controller、 Service、Dao页面。
+		实现用户查看订单详情功能，并在页面展示
+		实现取消订单功能
+		实现删除订单功能
+		登陆后上方的我的订单课实现删除
+		方法见src.com.sh.user.ordercontroller/service/dao
+
+	5. 实现商品显示模块，要求写出商品Controller、 Service、Dao页面。
+		页面显示热门商品功能
+		页面显示最新商品功能
+		页面显示所有商品功能（注意排序）
+		登陆后点击上方购买商品，进入界面，有显示所有，热门，最新
+		方法见src.com.sh.user.bookcontroller/service/dao
+
+	6. 实现购物车模块，要求写出Controller、 Service、Dao页面。
+		实现添加商品到购物车功能
+        	实现页面显示购物车列表功能
+		实现删除购物车中的商品功能，单个删除以及批量删除
+		在购买商品页面点击商品图片或商品名或buy，进入商品详情页，添加到购物车（可选择数量），进入我的购物车页面，可进行单个删除和多个删除。
+		方法见src.com.sh.user.cartcontroller/service/dao
+	
+	7. 实现后台管理员商品管理模块，要求写出Controller、 Service、Dao页面。
+		实现添加商品功能，添加类别以及添加商品
+        	实现删除商品功能
+		实现搜索商品功能
+        	实现修改商品功能
+		登陆管理员界面，左边进行操作
+		方法见src.com.sh.admin.bookcontroller/service/dao
+
+	 8. 实现后台管理员订单管理模块，要求写出Controller、 Service、Dao页面。
+		实现显示所有用户订单功能        
+		实现搜索订单功能
+		实现订单详情功能
+		登陆管理员界面，左边进行操作
+		方法见src.com.sh.admin.ordercontroller/service/dao
