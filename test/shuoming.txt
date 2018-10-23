@@ -1,7 +1,7 @@
 展示：1．实体Javabean以及对应数据库表的建立：
         实体类JavaBean之间的映射关系要包括一对一、一对多以及多对多。
 		<配置文件或注解> 
-	com.sh.entity包里的文件
+	com.sh.entity包里的文件00
 	
 	2．Spring框架和Hibernate框架的配置文件相关配置：
 		web.xml文件：配置SpringMVC的前端控制器，配置Spring的Listener。
